@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -24,6 +25,9 @@ const tabs: Tab[] = [
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
+
+  // Find the current active tab
+  const currentTab = tabs.find(tab => tab.id === activeTab);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -197,11 +201,11 @@ const Dashboard = () => {
                 <div className="h-96 flex items-center justify-center bg-card rounded-xl shadow-sm border border-border animate-fade-in">
                   <div className="text-center max-w-md p-8">
                     <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-secondary mb-4">
-                      <tabs.find(tab => tab.id === activeTab)?.icon className="h-6 w-6 text-muted-foreground" />
+                      {currentTab && <currentTab.icon className="h-6 w-6 text-muted-foreground" />}
                     </div>
                     <h2 className="text-xl font-medium mb-2">Coming Soon</h2>
                     <p className="text-muted-foreground">
-                      The {tabs.find(tab => tab.id === activeTab)?.label} tab is currently under development. Check back soon for updates!
+                      The {currentTab?.label} tab is currently under development. Check back soon for updates!
                     </p>
                   </div>
                 </div>
