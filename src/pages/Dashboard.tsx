@@ -16,8 +16,10 @@ import {
   SidebarMenuButton,
   SidebarGroup,
   SidebarGroupLabel,
-  SidebarGroupContent
+  SidebarGroupContent,
+  SidebarRail
 } from "@/components/ui/sidebar";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 // Define tab type
 type Tab = {
@@ -46,9 +48,7 @@ const Dashboard = () => {
   // Handle tab click - now navigates to the appropriate route
   const handleTabClick = (tabId: string, path: string) => {
     setActiveTab(tabId);
-    if (tabId !== "overview") {
-      navigate(path);
-    }
+    navigate(path);
   };
 
   return (
@@ -116,6 +116,7 @@ const Dashboard = () => {
                     </div>
                   </SidebarGroup>
                 </SidebarContent>
+                <SidebarRail />
               </Sidebar>
               
               {/* Main content area */}
@@ -215,7 +216,7 @@ const Dashboard = () => {
                   </div>
                 )}
                 
-                {/* For other tabs, show navigation message */}
+                {/* For other tabs, show immediate navigation */}
                 {activeTab !== "overview" && (
                   <div className="h-96 flex items-center justify-center bg-card rounded-xl shadow-sm border border-border animate-fade-in">
                     <div className="text-center max-w-md p-8">
@@ -223,14 +224,9 @@ const Dashboard = () => {
                         {currentTab && <currentTab.icon className="h-6 w-6 text-muted-foreground" />}
                       </div>
                       <h2 className="text-xl font-medium mb-2">Navigating to {currentTab?.label}</h2>
-                      <p className="text-muted-foreground">
-                        Please click on the {currentTab?.label} tab in the sidebar to navigate to the full page.
+                      <p className="text-muted-foreground mb-4">
+                        You'll be redirected to the {currentTab?.label} page momentarily.
                       </p>
-                      <Link to={currentTab?.path || "#"} className="mt-4 inline-block">
-                        <button className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">
-                          Go to {currentTab?.label}
-                        </button>
-                      </Link>
                     </div>
                   </div>
                 )}
