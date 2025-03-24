@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Header } from "@/components/Header";
@@ -381,7 +380,7 @@ const Reports = () => {
                         <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                         <XAxis dataKey="month" />
                         <YAxis domain={[600, 850]} />
-                        <Tooltip
+                        <RechartsTooltip
                           contentStyle={{
                             backgroundColor: "var(--background)",
                             borderColor: "var(--border)",
@@ -432,7 +431,7 @@ const Reports = () => {
                           <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                           <XAxis type="number" domain={[0, 100]} />
                           <YAxis type="category" dataKey="name" width={100} />
-                          <Tooltip
+                          <RechartsTooltip
                             contentStyle={{
                               backgroundColor: "var(--background)",
                               borderColor: "var(--border)",
