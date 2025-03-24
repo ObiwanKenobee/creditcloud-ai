@@ -9,6 +9,10 @@ import Dashboard from "./pages/Dashboard";
 import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
 import { useState } from "react";
+import LoanEligibility from "./pages/LoanEligibility";
+import Reports from "./pages/Reports";
+import Security from "./pages/Security";
+import Referrals from "./pages/Referrals";
 
 const App = () => {
   // Create a client inside the component
@@ -24,6 +28,10 @@ const App = () => {
             <Route path="/" element={<Index />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/loan-eligibility" element={<LoanEligibility />} />
+            <Route path="/reports" element={<Reports />} />
+            <Route path="/security" element={<Security />} />
+            <Route path="/referrals" element={<Referrals />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
