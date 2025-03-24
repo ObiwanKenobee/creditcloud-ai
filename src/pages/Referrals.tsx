@@ -26,9 +26,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { toast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import confetti from "canvas-confetti";
+import { ReferralData, LeaderboardEntry } from "@/types/api";
 
 // Mock data for referrals
-const fetchReferrals = async () => {
+const fetchReferrals = async (): Promise<ReferralData> => {
   // In a real app, this would be an API call
   return new Promise(resolve => {
     setTimeout(() => {
@@ -56,7 +57,7 @@ const fetchReferrals = async () => {
 };
 
 // Mock data for leaderboard
-const fetchLeaderboard = async () => {
+const fetchLeaderboard = async (): Promise<LeaderboardEntry[]> => {
   // In a real app, this would be an API call
   return new Promise(resolve => {
     setTimeout(() => {
@@ -77,7 +78,7 @@ const fetchLeaderboard = async () => {
 };
 
 // Function to get badge color
-const getBadgeColor = (badge) => {
+const getBadgeColor = (badge: string) => {
   switch (badge) {
     case "Diamond":
       return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400";
@@ -95,7 +96,7 @@ const getBadgeColor = (badge) => {
 };
 
 // Function to get next tier information
-const getNextTier = (referrals) => {
+const getNextTier = (referrals: number) => {
   if (referrals < 5) return { tier: "Bronze", needed: 5 - referrals, progress: (referrals / 5) * 100 };
   if (referrals < 10) return { tier: "Silver", needed: 10 - referrals, progress: (referrals / 10) * 100 };
   if (referrals < 15) return { tier: "Gold", needed: 15 - referrals, progress: (referrals / 15) * 100 };
@@ -106,17 +107,17 @@ const getNextTier = (referrals) => {
 const Referrals = () => {
   const [copiedText, setCopiedText] = useState("");
   
-  const { data: referralData, isLoading: isLoadingReferrals } = useQuery({
+  const { data: referralData, isLoading: isLoadingReferrals } = useQuery<ReferralData>({
     queryKey: ['referrals'],
     queryFn: fetchReferrals
   });
   
-  const { data: leaderboardData, isLoading: isLoadingLeaderboard } = useQuery({
+  const { data: leaderboardData, isLoading: isLoadingLeaderboard } = useQuery<LeaderboardEntry[]>({
     queryKey: ['leaderboard'],
     queryFn: fetchLeaderboard
   });
   
-  const copyToClipboard = (text, type) => {
+  const copyToClipboard = (text: string, type: string) => {
     navigator.clipboard.writeText(text);
     setCopiedText(type);
     

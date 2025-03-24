@@ -29,16 +29,17 @@ import {
   XAxis, 
   YAxis, 
   CartesianGrid, 
-  Tooltip, 
+  Tooltip as RechartsTooltip, 
   ResponsiveContainer,
   BarChart,
   Bar,
   Legend
 } from "recharts";
 import { motion } from "framer-motion";
+import { CreditHistory, Transaction, AIInsight, CreditHistoryFactor } from "@/types/api";
 
 // Mock data for credit history
-const fetchCreditHistory = async () => {
+const fetchCreditHistory = async (): Promise<CreditHistory> => {
   // In a real app, this would be an API call
   return new Promise(resolve => {
     setTimeout(() => {
@@ -68,7 +69,7 @@ const fetchCreditHistory = async () => {
 };
 
 // Mock data for transactions
-const fetchTransactions = async () => {
+const fetchTransactions = async (): Promise<Transaction[]> => {
   // In a real app, this would be an API call to backend/Hedera
   return new Promise(resolve => {
     setTimeout(() => {
@@ -149,7 +150,7 @@ const fetchTransactions = async () => {
 };
 
 // Mock data for AI insights
-const fetchAIInsights = async () => {
+const fetchAIInsights = async (): Promise<AIInsight[]> => {
   // In a real app, this would be an API call
   return new Promise(resolve => {
     setTimeout(() => {
@@ -184,12 +185,12 @@ const fetchAIInsights = async () => {
 };
 
 // Functions to generate charts data
-const generateCreditFactorsData = (factors) => {
-  return factors.map(factor => ({
+const generateCreditFactorsData = (factors: CreditHistoryFactor[] | undefined) => {
+  return factors ? factors.map(factor => ({
     name: factor.factor,
     value: factor.value,
     fill: factor.trend === "up" ? "#22c55e" : factor.trend === "down" ? "#ef4444" : "#64748b"
-  }));
+  })) : [];
 };
 
 const Reports = () => {
@@ -198,17 +199,17 @@ const Reports = () => {
   const [sortDirection, setSortDirection] = useState("desc");
   const [filterType, setFilterType] = useState("");
   
-  const { data: creditHistory, isLoading: isLoadingHistory } = useQuery({
+  const { data: creditHistory, isLoading: isLoadingHistory } = useQuery<CreditHistory>({
     queryKey: ['creditHistory'],
     queryFn: fetchCreditHistory
   });
   
-  const { data: transactions, isLoading: isLoadingTransactions } = useQuery({
+  const { data: transactions, isLoading: isLoadingTransactions } = useQuery<Transaction[]>({
     queryKey: ['transactions'],
     queryFn: fetchTransactions
   });
   
-  const { data: aiInsights, isLoading: isLoadingInsights } = useQuery({
+  const { data: aiInsights, isLoading: isLoadingInsights } = useQuery<AIInsight[]>({
     queryKey: ['aiInsights'],
     queryFn: fetchAIInsights
   });
@@ -229,7 +230,7 @@ const Reports = () => {
     }, 2000);
   };
   
-  const viewOnHederaExplorer = (hederaId) => {
+  const viewOnHederaExplorer = (hederaId: string) => {
     // In a real app, this would open the Hedera explorer for the specific transaction
     window.open(`https://hashscan.io/testnet/transaction/${hederaId}`, "_blank");
     
@@ -269,7 +270,7 @@ const Reports = () => {
         })
     : [];
     
-  const handleSort = (field) => {
+  const handleSort = (field: string) => {
     if (sortField === field) {
       setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     } else {

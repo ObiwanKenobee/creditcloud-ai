@@ -19,9 +19,10 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { toast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
+import { CreditScoreData, LoanOffer } from "@/types/api";
 
 // Mock data for credit score
-const fetchCreditScore = async () => {
+const fetchCreditScore = async (): Promise<CreditScoreData> => {
   // In a real app, this would be an API call to Hedera or backend
   return new Promise(resolve => {
     setTimeout(() => {
@@ -45,7 +46,7 @@ const fetchCreditScore = async () => {
 };
 
 // Mock data for loan offers
-const fetchLoanOffers = async (creditScore: number) => {
+const fetchLoanOffers = async (creditScore: number): Promise<LoanOffer[]> => {
   // In a real app, this would fetch data from lenders based on the credit score
   return new Promise(resolve => {
     setTimeout(() => {
@@ -100,12 +101,12 @@ const getRiskLevelBackground = (riskLevel: string) => {
 };
 
 const LoanEligibility = () => {
-  const { data: creditData, isLoading: isLoadingCredit } = useQuery({
+  const { data: creditData, isLoading: isLoadingCredit } = useQuery<CreditScoreData>({
     queryKey: ['creditScore'],
     queryFn: fetchCreditScore
   });
   
-  const { data: loanOffers, isLoading: isLoadingOffers } = useQuery({
+  const { data: loanOffers, isLoading: isLoadingOffers } = useQuery<LoanOffer[]>({
     queryKey: ['loanOffers', creditData?.score],
     queryFn: () => fetchLoanOffers(creditData?.score || 0),
     enabled: !!creditData?.score

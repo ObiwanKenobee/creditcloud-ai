@@ -44,7 +44,7 @@ const SecurityPage = () => {
   const [lastSecurityScan, setLastSecurityScan] = useState("2023-10-12T09:30:00Z");
   const [securityScore, setSecurityScore] = useState(85);
   
-  const toggleSetting = (setting, value) => {
+  const toggleSetting = (setting: string, value: boolean) => {
     // In a real app, this would make an API call to update settings on the backend
     toast({
       title: `${value ? "Enabled" : "Disabled"} ${setting}`,
