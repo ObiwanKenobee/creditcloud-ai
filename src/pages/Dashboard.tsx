@@ -1,25 +1,14 @@
-
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { AIAssistant } from "@/components/AIAssistant";
 import { CreditScoreCard } from "@/components/CreditScoreCard";
-import { BarChart, FileText, PieChart, Shield, Users } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { BarChart, PieChart, Shield } from "lucide-react";
 import {
   SidebarProvider,
-  Sidebar,
-  SidebarContent,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarGroup,
-  SidebarGroupLabel,
-  SidebarGroupContent,
-  SidebarRail
 } from "@/components/ui/sidebar";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { AppSidebar } from "@/components/AppSidebar";
 
 // Define tab type
 type Tab = {
@@ -33,9 +22,6 @@ type Tab = {
 const tabs: Tab[] = [
   { id: "overview", label: "Overview", icon: PieChart, path: "/dashboard" },
   { id: "loans", label: "Loan Eligibility", icon: BarChart, path: "/loan-eligibility" },
-  { id: "reports", label: "Reports", icon: FileText, path: "/reports" },
-  { id: "security", label: "Security", icon: Shield, path: "/security" },
-  { id: "referrals", label: "Referrals", icon: Users, path: "/referrals" }
 ];
 
 const Dashboard = () => {
@@ -77,47 +63,7 @@ const Dashboard = () => {
           <SidebarProvider>
             <div className="flex flex-col lg:flex-row gap-8 min-h-[70vh]">
               {/* Sidebar */}
-              <Sidebar variant="floating" className="w-[240px]">
-                <SidebarContent>
-                  <SidebarGroup>
-                    <SidebarGroupLabel>Navigation</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                      <SidebarMenu>
-                        {tabs.map((tab) => (
-                          <SidebarMenuItem key={tab.id}>
-                            <SidebarMenuButton 
-                              isActive={activeTab === tab.id}
-                              onClick={() => handleTabClick(tab.id, tab.path)}
-                              tooltip={tab.label}
-                            >
-                              <tab.icon className="h-4 w-4" />
-                              <span>{tab.label}</span>
-                            </SidebarMenuButton>
-                          </SidebarMenuItem>
-                        ))}
-                      </SidebarMenu>
-                    </SidebarGroupContent>
-                  </SidebarGroup>
-                  
-                  <SidebarGroup>
-                    <div className="p-4 bg-card rounded-xl shadow-sm border border-border">
-                      <div className="flex items-center gap-4 mb-4">
-                        <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                          <Shield className="h-5 w-5 text-primary" />
-                        </div>
-                        <div>
-                          <h3 className="text-sm font-medium">Secure Storage</h3>
-                          <p className="text-xs text-muted-foreground">Hedera DLT Technology</p>
-                        </div>
-                      </div>
-                      <p className="text-xs text-muted-foreground">
-                        Your data is securely stored on Hedera's distributed ledger, protected by advanced encryption.
-                      </p>
-                    </div>
-                  </SidebarGroup>
-                </SidebarContent>
-                <SidebarRail />
-              </Sidebar>
+              <AppSidebar />
               
               {/* Main content area */}
               <div className="flex-1">
